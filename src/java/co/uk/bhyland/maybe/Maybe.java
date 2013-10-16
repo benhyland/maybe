@@ -79,14 +79,15 @@ public abstract class Maybe<A> implements Iterable<A> {
 	// orElseThrow is desirable to provide a good interface between Maybe-handling code
 	// and exception-handling code. As before, we don't mind the strict argument as we
 	// wouldn't be using Maybe at all if we had performance concerns on that level.
-    public <T extends Throwable> A orElseThrow(final T t) throws T {
-    	// One way or another, this is going to have to be really evil.
-    	// Since all exceptions are unchecked in the jvm, we can trick the compiler
-    	// into allowing the fold by casting t to RuntimeException.
-    	// Or, we can open up our Just in some way (e.g. an explicit subclass and cast).
-    	// Let's play with the Throwable, since that seems more fun.
-    	// See http://james-iry.blogspot.co.uk/2010/08/on-removing-java-checked-exceptions-by.html
-    	return fold(Constant.<A>identity(), Constant.<A, T>throwing(t));
+	//
+	// One way or another, this is going to have to be really evil.
+	// Since all exceptions are unchecked in the jvm, we can trick the compiler
+	// into allowing the fold by casting t to RuntimeException.
+	// Or, we can open up our Just in some way (e.g. an explicit subclass and cast).
+	// Let's play with the Throwable, since that seems more fun.
+	// See http://james-iry.blogspot.co.uk/2010/08/on-removing-java-checked-exceptions-by.html
+	public <T extends Throwable> A orElseThrow(final T t) throws T {
+		return fold(Constant.<A>identity(), Constant.<A, T>throwing(t));
 	}
 	
 	// as above, this iterates over one element in the Just case and
