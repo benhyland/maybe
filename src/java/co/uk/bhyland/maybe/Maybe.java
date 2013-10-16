@@ -87,10 +87,10 @@ public abstract class Maybe<A> implements Iterable<A> {
     	// Let's play with the Throwable, since that seems more fun.
     	// See http://james-iry.blogspot.co.uk/2010/08/on-removing-java-checked-exceptions-by.html
     	return fold(Constant.<A>identity(), Constant.<A, T>throwing(t));
-    }
+	}
 	
-    // as above, this iterates over one element in the Just case and
-    // zero elements in the Nothing case.
+	// as above, this iterates over one element in the Just case and
+	// zero elements in the Nothing case.
 	@Override public Iterator<A> iterator() {
 		final F1<A,Iterator<A>> ifJust = new F1<A,Iterator<A>>(){
 			public Iterator<A> apply(final A a) {
