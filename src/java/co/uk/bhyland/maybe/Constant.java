@@ -7,15 +7,15 @@ public final class Constant {
 	
 	private Constant() {}
 	
-	public static <A> F0<A> constantF0(final A a) {
-		return new F0<A>(){
+	public static <A> Function0<A> constantFunction0(final A a) {
+		return new Function0<A>(){
 			@Override public A apply() {
 				return a;
 			}
 		};
 	}
-	public static <A,B> F1<A,B> constantF1(final B b) {
-		return new F1<A,B>(){
+	public static <A,B> Function1<A,B> constantFunction1(final B b) {
+		return new Function1<A,B>(){
 			@Override public B apply(A a) {
 				return b;
 			}
@@ -57,24 +57,11 @@ public final class Constant {
 		};
 	}
 
-	public static <A> F1<A, A> identity() {
-		return new F1<A, A>() {
+	public static <A> Function1<A, A> identity() {
+		return new Function1<A, A>() {
 			@Override public A apply(A a) {
 				return a;
 			}
 		};
-	}
-	
-	public static <A, T extends Throwable> F0<A> throwing(final T t) {
-		return new F0<A>() {
-			@Override public A apply() {
-				return Constant.<A, RuntimeException>castThrow(t);
-			}
-		};
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static <A, T extends Throwable> A castThrow(Throwable t) throws T {
-		throw (T)t;
-	}
+	}	
 }
