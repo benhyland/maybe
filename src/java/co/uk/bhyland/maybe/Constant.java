@@ -63,5 +63,13 @@ public final class Constant {
 				return a;
 			}
 		};
-	}	
+	}
+	
+	public static <A, T extends Throwable> UnsafeFunction<A, T> unsafeFunctionThrowing(final Function0<T> t) {
+		return new UnsafeFunction<A,T>(){
+			@Override public A apply() throws T {
+				throw t.apply();
+			}
+		};
+	}
 }

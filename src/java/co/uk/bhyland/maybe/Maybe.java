@@ -18,6 +18,11 @@ import java.util.Iterator;
 // If this is so, then Validation, defined as the sum type Either<SuccessValue, NonEmptyList<ErrorValue>>
 // is probably a better choice.
 
+// The implementation below is only one of many ways of fulfilling the given interface.
+// While simple and consistent, it is not the most efficient way to do things.
+// It leans heavily towards a functional-style implementation because the fold() examples
+// may be a more useful exercise for those less experienced in this area.
+
 // Maybe should implement Iterable - it is equivalent to a list of zero or one element.
 public abstract class Maybe<A> implements Iterable<A> {
 
@@ -88,20 +93,10 @@ public abstract class Maybe<A> implements Iterable<A> {
 	// We could use instanceof or something equivalent.
 	// Here we choose to use a double check with a dead code path to avoid any of the above. YMMV.
 	public <T extends Throwable> A orElseThrow(final T t) throws T {
-		if(isDefined()) {
-			return orNull(); // never null
-		}
-		else {
-			throw t;
-		}
+		return orElseThrow(Constant.constantFunction0(t));
 	}
 	public <T extends Throwable> A orElseThrow(final Function0<T> t) throws T {
-		if(isDefined()) {
-			return orNull(); // never null
-		}
-		else {
-			throw t.apply();
-		}
+		return orElse(Constant.<A,T>unsafeFunctionThrowing(t));
 	}
 	public <T extends Throwable> A orElse(final UnsafeFunction<A,T> defaultMayThrow) throws T {
 		if(isDefined()) {
